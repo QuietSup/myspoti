@@ -12,42 +12,50 @@ import (
 
 const apiBase = "https://api.spotify.com/v1"
 
-// Next skips to the next track.
-func Next() error {
-	return post("/me/player/next")
-}
-
-// Previous skips to the previous track.
-func Previous() error {
-	return post("/me/player/previous")
-}
-
 func post(path string) error {
-	token, err := auth.AccessToken()
+	status, body, err := do(http.MethodPost, path, nil)
 	if err != nil {
 		return err
+	}
+
+	switch status {
+	case http.StatusNoContent, http.StatusOK:
+		return nil
+	default:
+		return apiError(status, body)
+	}
+}
+
+func do(method, path string, body io.Reader) (int, []byte, error) {
+	token, err := auth.AccessToken()
+	if err != nil {
+		return 0, nil, err
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
 
-	req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiBase+path, nil)
+	req, err := http.NewRequestWithContext(ctx, method, apiBase+path, body)
 	if err != nil {
-		return err
+		return 0, nil, err
 	}
 	req.Header.Set("Authorization", "Bearer "+token)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return err
+		return 0, nil, err
 	}
 	defer func() { _ = resp.Body.Close() }()
 
-	body, _ := io.ReadAll(resp.Body)
+	data, err := io.ReadAll(resp.Body)
+	if err != nil {
+		return 0, nil, err
+	}
+	return resp.StatusCode, data, nil
+}
 
-	switch resp.StatusCode {
-	case http.StatusNoContent, http.StatusOK:
-		return nil
+func apiError(status int, body []byte) error {
+	switch status {
 	case http.StatusUnauthorized:
 		return fmt.Errorf("unauthorized — run `myspoti auth` again")
 	case http.StatusForbidden:
@@ -55,7 +63,7 @@ func post(path string) error {
 	case http.StatusNotFound:
 		return fmt.Errorf("no active device — open Spotify on a device first")
 	default:
-		return fmt.Errorf("spotify API %d: %s", resp.StatusCode, trimBody(body))
+		return fmt.Errorf("spotify API %d: %s", status, trimBody(body))
 	}
 }
 

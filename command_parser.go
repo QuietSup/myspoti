@@ -10,6 +10,7 @@ func parseCommand() func() {
 		"help": helpCmd,
 		"next": nextCmd,
 		"prev": prevCmd,
+		"now":  nowCmd,
 		"auth": authCmd,
 	}
 	if len(os.Args) < 2 {
