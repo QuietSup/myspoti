@@ -1,0 +1,19 @@
+# Built binary
+/myspoti
+
+# Env / secrets
+.env
+.env.*
+
+# Go
+*.exe
+*.test
+*.out
+coverage.out
+
+# Editor / OS
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
