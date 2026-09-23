@@ -10,6 +10,7 @@ func parseCommand() func() {
         "help": help,
         "next": next,
         "prev": prev,
+        "auth": authCmd,
     }
     if len(os.Args) < 2 {
         fmt.Println("Usage: command_parser <command>")
