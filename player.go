@@ -1,15 +1,34 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"os"
 
-func next() {
-	fmt.Println("next")
+	"myspoti/internal/player"
+)
+
+func nextCmd() {
+	if err := player.Next(); err != nil {
+		fmt.Fprintf(os.Stderr, "next failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println("Skipped to next track")
 }
 
-func prev() {
-	fmt.Println("prev")
+func prevCmd() {
+	if err := player.Previous(); err != nil {
+		fmt.Fprintf(os.Stderr, "prev failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println("Skipped to previous track")
 }
 
-func help() {
-	fmt.Println("help")
+func helpCmd() {
+	fmt.Println(`myspoti — control Spotify from the terminal
+
+Commands:
+  auth   Log in with Spotify (PKCE)
+  next   Skip to next track
+  prev   Skip to previous track
+  help   Show this help`)
 }

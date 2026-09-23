@@ -7,9 +7,9 @@ import (
 
 func parseCommand() func() {
 	commands := map[string]func(){
-		"help": help,
-		"next": next,
-		"prev": prev,
+		"help": helpCmd,
+		"next": nextCmd,
+		"prev": prevCmd,
 		"auth": authCmd,
 	}
 	if len(os.Args) < 2 {
