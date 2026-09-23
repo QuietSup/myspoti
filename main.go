@@ -1,6 +1,6 @@
 package main
 
 func main() {
-   command := parseCommand()
-   command()
+	command := parseCommand()
+	command()
 }
