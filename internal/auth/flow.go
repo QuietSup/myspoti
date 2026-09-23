@@ -81,7 +81,7 @@ func openBrowser(targetURL string) error {
 		cmd, args = "xdg-open", []string{targetURL}
 	}
 
-	return exec.Command(cmd, args...).Start()
+	return exec.CommandContext(context.Background(), cmd, args...).Start()
 }
 
 // Run starts the PKCE login flow, exchanges the code, and saves tokens.

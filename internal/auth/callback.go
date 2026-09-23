@@ -31,12 +31,13 @@ func waitForAuthCode(ctx context.Context) (string, error) {
 		}
 
 		w.Header().Set("Content-Type", "text/html; charset=utf-8")
-		fmt.Fprint(w, `<!DOCTYPE html><html><body><h1>Authenticated</h1><p>You can close this tab.</p></body></html>`)
+		_, _ = fmt.Fprint(w, `<!DOCTYPE html><html><body><h1>Authenticated</h1><p>You can close this tab.</p></body></html>`)
 		codeCh <- code
 	})
 
 	server := &http.Server{Handler: mux}
-	ln, err := net.Listen("tcp", listenAddr)
+	var lc net.ListenConfig
+	ln, err := lc.Listen(ctx, "tcp", listenAddr)
 	if err != nil {
 		return "", fmt.Errorf("listening on %s: %w", listenAddr, err)
 	}

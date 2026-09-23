@@ -1,9 +1,11 @@
 package player
 
 import (
+	"context"
 	"fmt"
 	"io"
 	"net/http"
+	"time"
 
 	"myspoti/internal/auth"
 )
@@ -26,7 +28,10 @@ func post(path string) error {
 		return err
 	}
 
-	req, err := http.NewRequest(http.MethodPost, apiBase+path, nil)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(ctx, http.MethodPost, apiBase+path, nil)
 	if err != nil {
 		return err
 	}
@@ -36,7 +41,7 @@ func post(path string) error {
 	if err != nil {
 		return err
 	}
-	defer resp.Body.Close()
+	defer func() { _ = resp.Body.Close() }()
 
 	body, _ := io.ReadAll(resp.Body)
 
