@@ -58,7 +58,8 @@ func likeCmd() {
 		fmt.Fprintf(os.Stderr, "like failed: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Liked: %s — %s\n", playback.Track, playback.Artists)
+	fmt.Println("Liked")
+	fmt.Println(playback)
 }
 
 func unlikeCmd() {
@@ -67,7 +68,8 @@ func unlikeCmd() {
 		fmt.Fprintf(os.Stderr, "unlike failed: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Printf("Unliked: %s — %s\n", playback.Track, playback.Artists)
+	fmt.Println("Unliked")
+	fmt.Println(playback)
 }
 
 func helpCmd() {

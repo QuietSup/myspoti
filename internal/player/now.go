@@ -19,21 +19,6 @@ type Playback struct {
 	Duration  time.Duration
 }
 
-func (p Playback) String() string {
-	state := "paused"
-	if p.IsPlaying {
-		state = "playing"
-	}
-	return fmt.Sprintf("%s — %s\n%s\n[%s] %s / %s",
-		p.Track,
-		p.Artists,
-		p.Album,
-		state,
-		formatDuration(p.Progress),
-		formatDuration(p.Duration),
-	)
-}
-
 func formatDuration(d time.Duration) string {
 	total := int(d.Seconds())
 	if total < 0 {
