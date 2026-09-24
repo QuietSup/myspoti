@@ -52,15 +52,35 @@ func nowCmd() {
 	fmt.Println(playback)
 }
 
+func likeCmd() {
+	playback, err := player.Like()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "like failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("Liked: %s — %s\n", playback.Track, playback.Artists)
+}
+
+func unlikeCmd() {
+	playback, err := player.Unlike()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "unlike failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Printf("Unliked: %s — %s\n", playback.Track, playback.Artists)
+}
+
 func helpCmd() {
 	fmt.Println(`myspoti — control Spotify from the terminal
 
 Commands:
-  auth   Log in with Spotify (PKCE)
-  now    Show the currently playing track
-  play   Resume playback
-  pause  Pause playback
-  next   Skip to next track
-  prev   Skip to previous track
-  help   Show this help`)
+  auth    Log in with Spotify (PKCE)
+  now     Show the currently playing track
+  play    Resume playback
+  pause   Pause playback
+  next    Skip to next track
+  prev    Skip to previous track
+  like    Save current track to Your Library
+  unlike  Remove current track from Your Library
+  help    Show this help`)
 }

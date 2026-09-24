@@ -27,12 +27,14 @@ Playback control needs Spotify Premium and an active device (open Spotify somewh
 ## Usage
 
 ```bash
-go run . auth   # log in
-go run . now    # currently playing track
-go run . play   # resume
-go run . pause  # pause
-go run . next   # skip forward
-go run . prev   # skip back
+go run . auth    # log in (re-run after pulling new scopes)
+go run . now     # currently playing track
+go run . play    # resume
+go run . pause   # pause
+go run . next    # skip forward
+go run . prev    # skip back
+go run . like    # save current track
+go run . unlike  # remove current track from library
 go run . help
 ```
 

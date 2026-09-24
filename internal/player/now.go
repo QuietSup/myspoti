@@ -14,6 +14,7 @@ type Playback struct {
 	Track     string
 	Artists   string
 	Album     string
+	URI       string
 	Progress  time.Duration
 	Duration  time.Duration
 }
@@ -46,6 +47,7 @@ type currentlyPlayingResponse struct {
 	ProgressMS int  `json:"progress_ms"`
 	Item       *struct {
 		Name       string `json:"name"`
+		URI        string `json:"uri"`
 		DurationMS int    `json:"duration_ms"`
 		Artists    []struct {
 			Name string `json:"name"`
@@ -83,6 +85,7 @@ func Now() (*Playback, error) {
 			Track:     raw.Item.Name,
 			Artists:   strings.Join(artists, ", "),
 			Album:     raw.Item.Album.Name,
+			URI:       raw.Item.URI,
 			Progress:  time.Duration(raw.ProgressMS) * time.Millisecond,
 			Duration:  time.Duration(raw.Item.DurationMS) * time.Millisecond,
 		}, nil

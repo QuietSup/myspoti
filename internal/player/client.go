@@ -20,6 +20,10 @@ func put(path string) error {
 	return emptyBody(http.MethodPut, path)
 }
 
+func del(path string) error {
+	return emptyBody(http.MethodDelete, path)
+}
+
 func emptyBody(method, path string) error {
 	status, body, err := do(method, path, nil)
 	if err != nil {
