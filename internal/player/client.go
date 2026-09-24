@@ -13,7 +13,15 @@ import (
 const apiBase = "https://api.spotify.com/v1"
 
 func post(path string) error {
-	status, body, err := do(http.MethodPost, path, nil)
+	return emptyBody(http.MethodPost, path)
+}
+
+func put(path string) error {
+	return emptyBody(http.MethodPut, path)
+}
+
+func emptyBody(method, path string) error {
+	status, body, err := do(method, path, nil)
 	if err != nil {
 		return err
 	}

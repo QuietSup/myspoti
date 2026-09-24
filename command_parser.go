@@ -7,11 +7,13 @@ import (
 
 func parseCommand() func() {
 	commands := map[string]func(){
-		"help": helpCmd,
-		"next": nextCmd,
-		"prev": prevCmd,
-		"now":  nowCmd,
-		"auth": authCmd,
+		"help":  helpCmd,
+		"next":  nextCmd,
+		"prev":  prevCmd,
+		"play":  playCmd,
+		"pause": pauseCmd,
+		"now":   nowCmd,
+		"auth":  authCmd,
 	}
 	if len(os.Args) < 2 {
 		fmt.Println("Usage: command_parser <command>")

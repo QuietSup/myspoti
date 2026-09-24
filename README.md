@@ -15,7 +15,7 @@ echo '{"client_id":"YOUR_CLIENT_ID"}' > ~/.config/myspoti/config.json
 
 Or export `SPOTIFY_CLIENT_ID` (overrides the config file).
 
-4. Log in:
+1. Log in:
 
 ```bash
 go run . auth
@@ -29,6 +29,8 @@ Playback control needs Spotify Premium and an active device (open Spotify somewh
 ```bash
 go run . auth   # log in
 go run . now    # currently playing track
+go run . play   # resume
+go run . pause  # pause
 go run . next   # skip forward
 go run . prev   # skip back
 go run . help
@@ -40,6 +42,8 @@ Build a binary:
 make build      # → ./myspoti
 ./myspoti now
 ```
+
+
 
 ## Development
 
@@ -54,3 +58,4 @@ Install the linter:
 ```bash
 go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 ```
+
