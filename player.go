@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"myspoti/internal/player"
 )
@@ -12,7 +13,7 @@ func nextCmd() {
 		fmt.Fprintf(os.Stderr, "next failed: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println("Skipped to next track")
+	printNowAfterSkip()
 }
 
 func prevCmd() {
@@ -20,7 +21,7 @@ func prevCmd() {
 		fmt.Fprintf(os.Stderr, "prev failed: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println("Skipped to previous track")
+	printNowAfterSkip()
 }
 
 func playCmd() {
@@ -40,16 +41,7 @@ func pauseCmd() {
 }
 
 func nowCmd() {
-	playback, err := player.Now()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "now failed: %v\n", err)
-		os.Exit(1)
-	}
-	if playback == nil {
-		fmt.Println("Nothing is playing")
-		return
-	}
-	fmt.Println(playback)
+	printNow()
 }
 
 func likeCmd() {
@@ -58,7 +50,7 @@ func likeCmd() {
 		fmt.Fprintf(os.Stderr, "like failed: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println("Liked")
+	fmt.Println("‹𝟹 Liked")
 	fmt.Println(playback)
 }
 
@@ -68,7 +60,26 @@ func unlikeCmd() {
 		fmt.Fprintf(os.Stderr, "unlike failed: %v\n", err)
 		os.Exit(1)
 	}
-	fmt.Println("Unliked")
+	fmt.Println("‹/𝟹 Unliked")
+	fmt.Println(playback)
+}
+
+func printNowAfterSkip() {
+	// Spotify's currently-playing endpoint can lag briefly after a skip.
+	time.Sleep(300 * time.Millisecond)
+	printNow()
+}
+
+func printNow() {
+	playback, err := player.Now()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "now failed: %v\n", err)
+		os.Exit(1)
+	}
+	if playback == nil {
+		fmt.Println("Nothing is playing")
+		return
+	}
 	fmt.Println(playback)
 }
 
