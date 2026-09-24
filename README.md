@@ -15,37 +15,46 @@ echo '{"client_id":"YOUR_CLIENT_ID"}' > ~/.config/myspoti/config.json
 
 Or export `SPOTIFY_CLIENT_ID` (overrides the config file).
 
-1. Log in:
+4. Install the CLI and put Go's bin dir on your `PATH`:
 
 ```bash
-go run . auth
+go install .
+```
+
+Add this to `~/.zshrc` (or `~/.bashrc`):
+
+```bash
+export PATH="$(go env GOPATH)/bin:$PATH"
+```
+
+Then reload your shell (`source ~/.zshrc`).
+
+5. Log in (from anywhere):
+
+```bash
+myspoti auth
 ```
 
 Tokens are stored in `~/.config/myspoti/tokens.json`.  
-Playback control needs Spotify Premium and an active device (open Spotify somewhere first).
+Playback control needs Spotify Premium and an active device (open Spotify somewhere first).  
+Re-run `myspoti auth` after pulling new scopes (e.g. library like/unlike).
 
 ## Usage
 
 ```bash
-go run . auth    # log in (re-run after pulling new scopes)
-go run . now     # currently playing track
-go run . play    # resume
-go run . pause   # pause
-go run . next    # skip forward
-go run . prev    # skip back
-go run . like    # save current track
-go run . unlike  # remove current track from library
-go run . help
+myspoti auth    # log in
+myspoti now     # currently playing track
+myspoti play    # resume
+myspoti pause   # pause
+myspoti next    # skip forward
+myspoti prev    # skip back
+myspoti like    # save current track
+myspoti unlike  # remove current track from library
+myspoti help
 ```
 
-Build a binary:
-
-```bash
-make build      # → ./myspoti
-./myspoti now
-```
-
-
+While developing in the repo you can also use `go run . <command>` or `make build` → `./myspoti`.  
+Re-run `go install .` after code changes to refresh the global binary.
 
 ## Development
 
@@ -53,6 +62,7 @@ make build      # → ./myspoti
 make fmt
 make lint       # requires golangci-lint on PATH
 make test
+make build      # → ./myspoti
 ```
 
 Install the linter:
@@ -60,4 +70,3 @@ Install the linter:
 ```bash
 go install github.com/golangci/golangci-lint/v2/cmd/golangci-lint@latest
 ```
-
