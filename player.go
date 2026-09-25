@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"myspoti/internal/player"
+	"myspoti/internal/view"
 )
 
 func nextCmd() {
@@ -44,6 +45,15 @@ func nowCmd() {
 	printNow()
 }
 
+func queueCmd() {
+	q, err := player.Queue()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "queue failed: %v\n", err)
+		os.Exit(1)
+	}
+	fmt.Println(view.Queue(q))
+}
+
 func likeCmd() {
 	playback, err := player.Like()
 	if err != nil {
@@ -51,7 +61,7 @@ func likeCmd() {
 		os.Exit(1)
 	}
 	fmt.Println("‹𝟹 Liked")
-	fmt.Println(playback)
+	fmt.Println(view.Playback(*playback))
 }
 
 func unlikeCmd() {
@@ -61,7 +71,7 @@ func unlikeCmd() {
 		os.Exit(1)
 	}
 	fmt.Println("‹/𝟹 Unliked")
-	fmt.Println(playback)
+	fmt.Println(view.Playback(*playback))
 }
 
 func printNowAfterSkip() {
@@ -80,7 +90,7 @@ func printNow() {
 		fmt.Println("Nothing is playing")
 		return
 	}
-	fmt.Println(playback)
+	fmt.Println(view.Playback(*playback))
 }
 
 func helpCmd() {
@@ -89,6 +99,7 @@ func helpCmd() {
 Commands:
   auth    Log in with Spotify (PKCE)
   now     Show the currently playing track
+  queue   Show recent, current, and up next
   play    Resume playback
   pause   Pause playback
   next    Skip to next track

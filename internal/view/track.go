@@ -1,10 +1,12 @@
-package player
+package view
 
 import (
 	"fmt"
 	"strings"
 	"time"
 	"unicode/utf8"
+
+	"myspoti/internal/player"
 )
 
 const (
@@ -12,7 +14,8 @@ const (
 	progressBarLen = 22
 )
 
-func (p Playback) String() string {
+// Playback renders the now-playing card.
+func Playback(p player.Playback) string {
 	bars := "▍▊▌▉▎"
 	title := truncateRunes(p.Track, boxInnerWidth-11)
 	subtitle := truncateRunes(fmt.Sprintf("%s · %s", p.Artists, p.Album), boxInnerWidth-9)
@@ -39,6 +42,14 @@ func (p Playback) String() string {
 	writeBoxLine(&b, line4)
 	writeBorder(&b, '╰', '╯', false)
 	return b.String()
+}
+
+func formatDuration(d time.Duration) string {
+	total := int(d.Seconds())
+	if total < 0 {
+		total = 0
+	}
+	return fmt.Sprintf("%d:%02d", total/60, total%60)
 }
 
 func writeBorder(b *strings.Builder, left, right rune, newline bool) {

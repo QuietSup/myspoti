@@ -37,13 +37,14 @@ myspoti auth
 
 Tokens are stored in `~/.config/myspoti/tokens.json`.  
 Playback control needs Spotify Premium and an active device (open Spotify somewhere first).  
-Re-run `myspoti auth` after pulling new scopes (e.g. library like/unlike).
+Re-run `myspoti auth` after pulling new scopes (e.g. library like/unlike, recently played).
 
 ## Usage
 
 ```bash
 myspoti auth    # log in
 myspoti now     # currently playing track
+myspoti queue   # recent, current, and up next
 myspoti play    # resume
 myspoti pause   # pause
 myspoti next    # skip forward

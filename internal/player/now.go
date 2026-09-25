@@ -2,7 +2,6 @@ package player
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -17,14 +16,6 @@ type Playback struct {
 	URI       string
 	Progress  time.Duration
 	Duration  time.Duration
-}
-
-func formatDuration(d time.Duration) string {
-	total := int(d.Seconds())
-	if total < 0 {
-		total = 0
-	}
-	return fmt.Sprintf("%d:%02d", total/60, total%60)
 }
 
 type currentlyPlayingResponse struct {

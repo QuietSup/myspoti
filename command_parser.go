@@ -13,6 +13,7 @@ func parseCommand() func() {
 		"play":   playCmd,
 		"pause":  pauseCmd,
 		"now":    nowCmd,
+		"queue":  queueCmd,
 		"like":   likeCmd,
 		"unlike": unlikeCmd,
 		"auth":   authCmd,

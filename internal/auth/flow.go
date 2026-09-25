@@ -14,7 +14,7 @@ import (
 
 const (
 	redirectURI = "http://127.0.0.1:8080/callback"
-	authScope   = "user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify"
+	authScope   = "user-modify-playback-state user-read-playback-state user-read-currently-playing user-library-modify user-read-recently-played"
 )
 
 type params struct {
