@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"strings"
 	"time"
 
 	"myspoti/internal/auth"
@@ -71,7 +72,11 @@ func apiError(status int, body []byte) error {
 	case http.StatusUnauthorized:
 		return fmt.Errorf("unauthorized — run `myspoti auth` again")
 	case http.StatusForbidden:
-		return fmt.Errorf("forbidden: %s (Premium required, or missing scope)", trimBody(body))
+		msg := string(body)
+		if strings.Contains(msg, "Insufficient client scope") {
+			return fmt.Errorf("missing Spotify permission — run `myspoti auth` to grant new scopes")
+		}
+		return fmt.Errorf("forbidden — Premium required, or missing permission (try `myspoti auth`)")
 	case http.StatusNotFound:
 		return fmt.Errorf("no active device — open Spotify on a device first")
 	default:
